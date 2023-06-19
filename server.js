@@ -55,6 +55,7 @@ app.listen(PORT, () => {
   console.log(`Synthetic Cypress listening at http://localhost:${PORT}`)
 })
 
+// TODO: Improve to run in multiple type of browsers and be able to report for each type.
 const runCypressTests = () => {
   return cypress.run({
     config: {
