@@ -45,6 +45,12 @@ app.use('/screenshots', express.static(__dirname + '/cypress/screenshots'))
 app.use('/status', serveIndex(__dirname + '/mochawesome-report'))
 app.use('/status', express.static(__dirname + '/mochawesome-report'))
 app.use('/health', require('express-healthcheck')())
+app.use('/test-suite-health', (req, res) => {
+  if (CURRENT_SUMMARY.totalFailed > 0) {
+    return res.status(500).send('Failed');
+  }
+  return res.status(200).send('OK');
+})
 app.listen(PORT, () => {
   console.log(`Synthetic Cypress listening at http://localhost:${PORT}`)
 })
@@ -116,6 +122,8 @@ const summaryAsJson = (results, baseUrl) => {
     videosLink: baseUrl + '/videos',
     screenshotsLink: baseUrl + '/screenshots',
     metricsLink: baseUrl + '/metrics',
+    serviceHealthCheck: baseUrl + '/health',
+    testSuiteHealthCheck: baseUrl + '/test-suite-health',
   }
 }
 
