@@ -1,4 +1,6 @@
-FROM cypress/base
+FROM cypress/base:18.16.0
+
+RUN apt-get update && apt-get install libxtst6
 
 ADD . /app
 WORKDIR /app
